@@ -68,3 +68,18 @@ the winner with CSI: 0.3348).
 
 
 Documentation: Creating a story-driven README and a technical Introduction.
+## 6. Deployment & Operational Robustness
+Transitioning a model from a notebook to a production API revealed a critical phenomenon: **Training-Serving Skew.**
+
+### A. The Challenge of "Haywire" Data
+Real-world meteorological data is rarely as clean as training datasets. We encountered issues where a single unit mismatch (e.g., entering `570` decameters instead of `5700` meters for thickness) caused the model to produce constant, low-confidence predictions ($0.01\%$).
+
+### B. The Dual-Layer Solution
+To ensure the system works reliably "in the wild," we implemented:
+1.  **Heuristic Guardrails**: Automatic "Sanity Checks" in the feature pipeline that correct common unit errors (e.g., multiplying small thickness values by 10) before they reach the model.
+2.  **StandardScaler Integration**: Normalizing all incoming data to a standard distribution (~ -1 to 1). This ensures that even if input units are slightly noisy, the model sees a "normalized" view consistent with its training experience.
+
+### C. The Full-Stack Architecture
+- **Shared Feature Pipeline**: A central `FeatureEngineering.py` module used by both the training scripts and the API, ensuring "Single Source of Truth" logic.
+- **FastAPI Backend**: A high-performance inference engine that manages model states and handles JSON requests.
+- **Streamlit Frontend**: A polished, intuitive dashboard for meteorologists to interact with the model in real-time.

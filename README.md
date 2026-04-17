@@ -30,10 +30,11 @@ The real adventure began with the **Raw Data Discovery**. We found significant "
 | SVM | **88.5%** | 65.8% | 0.327 |
 | **XGBoost** | 74.6% | **62.2%** | **0.335** |
 
-**The Conclusion:** While SVM was the most "sensitive" (catching 88% of storms!), it cried wolf too often. **XGBoost emerged as the champion** because it provided the best balance—a high detection rate of **74.6%** with the highest overall skill score (CSI).
-
-### 🚀 Q: Where does the project go from here?
-**A:** The "Champion" XGBoost model has been saved and is ready for the next phase: a **Streamlit Web Application** that allows meteorologists to input current indices and receive a real-time thunderstorm probability score.
+### 💻 Operationalization: From Model to Dashboard
+The journey didn't end with a notebook. We turned the XGBoost model into a production-grade forecasting tool:
+1.  **FastAPI Backend**: A robust API that serves predictions in milliseconds.
+2.  **Robustness Layer**: Integrated **Heuristic Guardrails** to catch common meteorological unit errors and a **StandardScaler** to normalize atmospheric noise.
+3.  **Streamlit Dashboard**: A premium UI for real-time interaction.
 
 ---
 
