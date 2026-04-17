@@ -1,0 +1,93 @@
+# -----------------------------
+# OS files
+# -----------------------------
+.DS_Store
+Thumbs.db
+
+# -----------------------------
+# Python cache / compiled files
+# -----------------------------
+__pycache__/
+*.py[cod]
+*$py.class
+
+# -----------------------------
+# Virtual environments
+# -----------------------------
+.venv/
+venv/
+env/
+ENV/
+
+# -----------------------------
+# Conda
+# -----------------------------
+.conda/
+conda-meta/
+
+# -----------------------------
+# Jupyter / IPython
+# -----------------------------
+.ipynb_checkpoints/
+profile_default/
+ipython_config.py
+
+# -----------------------------
+# Testing / coverage / type check
+# -----------------------------
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.pyre/
+.hypothesis/
+.tox/
+.nox/
+.coverage
+.coverage.*
+htmlcov/
+coverage.xml
+*.cover
+
+# -----------------------------
+# Logs
+# -----------------------------
+*.log
+logs/
+*.out
+*.err
+
+# -----------------------------
+# Environment / secrets
+# -----------------------------
+.env
+.env.*
+*.env
+
+# -----------------------------
+# IDE / Editor files
+# -----------------------------
+.vscode/
+.idea/
+*.iml
+
+# -----------------------------
+# Build / packaging
+# -----------------------------
+build/
+dist/
+site/
+.eggs/
+*.egg-info/
+pip-wheel-metadata/
+
+# -----------------------------
+# Local databases / temp files
+# -----------------------------
+*.sqlite3
+*.db
+tmp/
+temp/
+.cache/
+
+# -----------------------------
+# M
