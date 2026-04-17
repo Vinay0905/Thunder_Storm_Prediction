@@ -1,0 +1,14 @@
+data:
+  raw_indices: "data/raw/indices_data.csv"
+  raw_surfaces: "data/raw/surface_data.csv"
+  processed_final: "data/processed/final.csv"
+features:
+  target_col: "target"
+  indices_gmt_filter: 0
+  numeric_impute_strategy: "median"
+model:
+  path: "models/xgboost_model.joblib"
+  test_size: 0.2
+  random_state: 42
+
+  
