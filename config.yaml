@@ -1,6 +1,8 @@
 data:
   raw_indices: "data/raw/indices_data.csv"
   raw_surfaces: "data/raw/surface_data.csv"
+  raw_splits_dir: "data/raw_splits"        # <--- New
+  processed_dir: "data/processed" 
   processed_final: "data/processed/final.csv"
 features:
   target_col: "target"

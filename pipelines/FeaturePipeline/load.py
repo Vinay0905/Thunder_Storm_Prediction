@@ -4,11 +4,15 @@
 import logging 
 import pandas as pd 
 from pathlib import Path
-from config import CONFIG
+from pipelines.config.config import CONFIG
 import numpy as np
 from utility import setup_logging
 
 setup_logging()
+
+
+# Testing done by python -m pipelines.FeaturePipeline.load
+
 
 DATA_RAW_DIR = Path("data/raw_splits") # We will save splits here
 
@@ -24,8 +28,12 @@ def load_and_Split_data(output_dir : Path | str = DATA_RAW_DIR,):
         logging.info("Starting Data Load and Split...")
         # 1. Load using paths from YOUR config.yaml
 
-        df_indices=pd.read_csv(CONFIG['data']['raw_indices'])
-        df_surfaces=pd.read_csv(CONFIG['data']['raw_surfaces'])
+        df_indices=pd.read_csv(CONFIG['data']['raw_indices'],index_col=False)
+        df_surface=pd.read_csv(CONFIG['data']['raw_surfaces'],index_col=False)
+        # Add this diagnostic after line 31
+        logging.info(f"GMT Unique Values: {df_indices['GMT'].unique()}")
+        logging.info(f"GMT Dtype: {df_indices['GMT'].dtype}")
+
         # 2. Initial Cleaning (The 'Column Shift' fix)
         df_surface = df_surface.replace(r'\s*$', np.nan, regex=True)
         df_surface = df_surface.apply(pd.to_numeric, errors='coerce')
