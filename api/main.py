@@ -21,11 +21,11 @@ import pandas as pd
 
 app = FastAPI(title="Thunderstorm Prediction API")
 # Global variables to store our model and metadata
-model,medians,feature_names=None,None,None
+model,medians,feature_names,scaler=None,None,None,None
 @app.on_event("startup")
 def startup_event():
-    global model, medians, feature_names
-    model, medians, feature_names = load_artifacts()
+    global model, medians, feature_names,scaler
+    model, medians, feature_names,scaler = load_artifacts()
 @app.get("/")
 def read_root():
     return {"message": "Thunderstorm Prediction API is online"}
@@ -34,10 +34,10 @@ def predict(request: PredictionRequest):
     try:
         # 1. Process and Engineer features
         input_data = request.dict()
-        processed_df = prepare_data_for_Prediction(input_data, medians)
-        
+        processed_df = prepare_data_for_Prediction(input_data, medians,feature_names,scaler)
+
         # 2. Ensure column order matches exactly what the model was trained on
-        processed_df = processed_df[feature_names]
+        # processed_df = processed_df[feature_names]
         
         # 3. Make Prediction
         prediction = int(model.predict(processed_df)[0])

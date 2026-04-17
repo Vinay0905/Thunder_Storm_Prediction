@@ -1,11 +1,33 @@
 import pandas as pd 
 
+def apply_guardrails(df:pd.DataFrame)->pd.DataFrame:
+    """
+    Automatically corrects common unit errors and 'haywire' data.
+    """
+    df=df.copy()
+    # 1. Automatic Unit Correction for Thickness
+    # If a user enters 570 (decameters), we convert it to 5700 (meters)
+    if 'thickness_1000_500' in df.columns:
+        mask = df['thickness_1000_500'] < 1000
+        df.loc[mask, 'thickness_1000_500'] *= 10
+        
+    # 2. CINE sign correction
+    # CINE is energy required (convective inhibition). 
+    # In most models, it is represented as a negative number or zero.
+    if 'cine' in df.columns:
+        df['cine'] = df['cine'].apply(lambda x: -abs(x) if x > 0 else x)
+        
+    return df
+
+
 def apply_feature_engineering(df:pd.DataFrame)->pd.DataFrame:
     """
     Standardizes feature names and creates engineered features.
     This function ensures consistency between training and serving.
     """
     df=df.copy()
+
+    df=apply_guardrails(df)
 
     # 1. Internal Logic for Engineered Features
     # We support both API (lowercase) and Pipeline (uppercase) names
