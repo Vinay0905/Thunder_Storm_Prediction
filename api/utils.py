@@ -11,7 +11,7 @@ import joblib
 import pandas as pd 
 import numpy as np 
 from pathlib import Path
-
+from pipelines.FeaturePipeline.FeatureEngineering import apply_feature_engineering
 MODEL_PATH = Path("models/xgboost_model.joblib")
 MEDIANS_PATH = Path("models/medians.joblib")
 FEATURE_NAMES_PATH = Path("models/Feature_names.joblib")
@@ -27,31 +27,16 @@ def load_artifacts():
 
     return model,medians,feature_names
 
-def engineer_feature(raw_data:dict,medians:pd.Series):
-    # 1. Convert to DataFrame
-
-    df=pd.DataFrame([raw_data])
-
-    #2 Impute 
-    for col,val in medians.items():
+def prepare_data_for_Prediction(raw_data:dict,medians:pd.Series):
+     # 1. Convert to DataFrame
+    df = pd.DataFrame([raw_data])
+    
+    # 2. Apply the SAME logic used in training pipeline
+    df = apply_feature_engineering(df)
+    
+    # 3. Imputation (using the saved medians)
+    for col, val in medians.items():
         if col in df.columns and df[col].isnull().any():
-            df[col]=df[col].fillna(val)
-
-    # 3. Feature Engineering
-    df['Environmental Stability'] = df['showalter_index'] + df['lifted_index']
-    df['Convective Potential'] = df['cape'] + df['cine']
-    
-    # Rename raw columns to match what the model expects
-    df = df.rename(columns={
-        'sweat_index': 'SWEAT index',
-        'k_index': 'K index',
-        'totals_totals_index': 'Totals totals index',
-        'precipitable_water': 'Moisture Indices',
-        'thickness_1000_500': 'Temperature Pressure',
-        'plcl': 'Moisture Temperature Profiles'
-    })
-    
-    return df    
-
-
-    
+            df[col] = df[col].fillna(val)
+            
+    return df

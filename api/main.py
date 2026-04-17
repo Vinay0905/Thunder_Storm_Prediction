@@ -6,20 +6,22 @@ Reason:
     rather than loading it for every request (which would be very slow).
 """
 
+"""
+Command to run the server:
+    uvicorn api.main:app
+"""
 from fastapi import FastAPI,HTTPException
 
 from api.models import PredictionRequest,PrediuctionResponse
 
-from api.utils import load_artifacts,engineer_feature
+from api.utils import load_artifacts,prepare_data_for_Prediction
 
 import pandas as pd 
 
 
 app = FastAPI(title="Thunderstorm Prediction API")
 # Global variables to store our model and metadata
-model = None
-medians = None
-feature_names = None
+model,medians,feature_names=None,None,None
 @app.on_event("startup")
 def startup_event():
     global model, medians, feature_names
@@ -30,14 +32,14 @@ def read_root():
 @app.post("/predict", response_model=PrediuctionResponse)
 def predict(request: PredictionRequest):
     try:
-        # Convert request to dict and engineer features
+        # 1. Process and Engineer features
         input_data = request.dict()
-        processed_df = engineer_feature(input_data, medians)
+        processed_df = prepare_data_for_Prediction(input_data, medians)
         
-        # Ensure column order matches training
+        # 2. Ensure column order matches exactly what the model was trained on
         processed_df = processed_df[feature_names]
         
-        # Make Prediction
+        # 3. Make Prediction
         prediction = int(model.predict(processed_df)[0])
         probability = float(model.predict_proba(processed_df)[0][1])
         
@@ -47,4 +49,4 @@ def predict(request: PredictionRequest):
             "status": "Success"
         }
     except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+        raise HTTPException(status_code=500, detail=f"Prediction Error: {str(e)}")
