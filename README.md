@@ -38,6 +38,24 @@ The journey didn't end with a notebook. We built a complete MLOps ecosystem:
 4.  **Streamlit Dashboard**: A premium UI for decision support.
 
 
+### 🚀 How to Run
+
+To launch the system locally, follow these steps from the **project root directory**:
+
+#### 1. Start the FastAPI Prediction Server
+The API handles model inference, feature engineering guardrails, and data scaling.
+```bash
+uvicorn api.main:app --reload
+```
+*The API will be available at `http://127.0.0.1:8000`. You can view the interactive documentation at `/docs`.*
+
+#### 2. Launch the Streamlit Dashboard
+The dashboard provides a premium UI to input meteorological parameters and receive real-time storm forecasts.
+```bash
+streamlit run streamlit/streamlit_ui.py
+```
+*Note: The FastAPI server must be running for the dashboard to successfully generate predictions.*
+
 ---
 
 ### 📊 Key Technical Statistics
