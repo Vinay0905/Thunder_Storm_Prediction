@@ -79,7 +79,10 @@ To ensure the system works reliably "in the wild," we implemented:
 1.  **Heuristic Guardrails**: Automatic "Sanity Checks" in the feature pipeline that correct common unit errors (e.g., multiplying small thickness values by 10) before they reach the model.
 2.  **StandardScaler Integration**: Normalizing all incoming data to a standard distribution (~ -1 to 1). This ensures that even if input units are slightly noisy, the model sees a "normalized" view consistent with its training experience.
 
-### C. The Full-Stack Architecture
-- **Shared Feature Pipeline**: A central `FeatureEngineering.py` module used by both the training scripts and the API, ensuring "Single Source of Truth" logic.
-- **FastAPI Backend**: A high-performance inference engine that manages model states and handles JSON requests.
-- **Streamlit Frontend**: A polished, intuitive dashboard for meteorologists to interact with the model in real-time.
+### C. The Modular MLOps Architecture
+- **Shared Feature Pipeline**: A central `FeatureEngineering.py` module used by all pipelines.
+- **Inference Pipeline**: A dedicated `inference.py` class that centralizes loading and prediction.
+- **Training Suite**: Automated scripts for training, evaluation, and tuning (Optuna + MLflow).
+- **FastAPI Backend**: A high-performance inference engine.
+- **Streamlit Frontend**: An intuitive dashboard for meteorologists.
+

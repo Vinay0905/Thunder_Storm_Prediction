@@ -29,10 +29,12 @@ Applying a `StandardScaler` to a model trained on raw data caused identical/wron
 - **Fixed by**: Re-training the model (v2) with the scaler integrated into the training pipeline and exported as `scaler.joblib`.
 
 ## 4. Current Architecture
-- **`pipelines/FeaturePipeline/FeatureEngineering.py`**: Contains `apply_guardrails` and calculation logic.
-- **`api/utils.py`**: Loads model, medians, feature names, and scaler. Standardizes request data.
-- **`api/main.py`**: FastAPI routes.
-- **`streamlit/streamlit_ui.py`**: The final user-facing dashboard.
+- **`pipelines/FeaturePipeline/FeatureEngineering.py`**: Shared "Single Source of Truth" for feature logic.
+- **`pipelines/InferencePipeline/inference.py`**: Production runner for model predictions.
+- **`pipelines/TrainingPipeline/`**: Automated training suite (`train.py`, `eval.py`, `tune.py`).
+- **`api/`**: FastAPI implementation (now powered by `InferencePipeline`).
+- **`streamlit/streamlit_ui.py`**: Interactive dashboard.
+
 
 ## 5. Handoff Note
 Always ensure `scaler.joblib` and `xgboost_model.joblib` are synchronized. If the model is re-trained, the scaler MUST be re-fitted on the same training set.

@@ -67,4 +67,5 @@ With our dataset cleaned and features engineered, we chose **XGBoost (Extreme Gr
 3. **Handling Non-Linear Meteorological Data:** Atmospheric conditions are highly non-linear (e.g., high CAPE doesn't guarantee a storm if CINE is also extremely high). XGBoost creates intricately layered, branching "if-then" rules that can natively map these complex thermodynamic relationships without requiring perfectly linear inputs.
 4. **Regularization:** Extreme weather data inevitably contains noise or outliers. XGBoost applies mathematically robust regularization (penalizing overly complex underlying trees), which prevents the model from just memorizing the training dataset (overfitting). This ensures that it generalizes effectively and performs reliably on future, unseen weather days.
 
-*(This sets the foundation for our final hurdles: dealing with severe class imbalance using SMOTE and mitigating Training-Serving skew in the production API.)*
+*(This sets the foundation for our final hurdles: dealing with severe class imbalance, and building a professional MLOps structure with automated Training and Inference pipelines.)*
+
